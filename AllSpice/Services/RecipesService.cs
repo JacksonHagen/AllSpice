@@ -37,12 +37,26 @@ namespace AllSpice.Services
 			Recipe original = Get(recipeData.Id);
 			if (original.CreatorId != recipeData.CreatorId)
 			{
-				throw new Exception("You cannot edit recipes that do not belong to you.")
+				throw new Exception("You cannot edit recipes that do not belong to you.");
 			}
 			original.Title = recipeData.Title ?? original.Title;
 			original.Category = recipeData.Category ?? original.Category;
 			original.Picture = recipeData.Picture ?? original.Picture;
 			original.Subtitle = recipeData.Subtitle ?? original.Subtitle;
+
+			_repo.Edit(original);
+
+			return Get(original.Id);
+		}
+
+		internal void Delete(int recipeId, string userId)
+		{
+			Recipe target = Get(recipeId);
+			if (target.CreatorId != userId)
+			{
+				throw new Exception("You cannot delete recipes that do not belong to you.");
+			}
+			_repo.Delete(recipeId);
 		}
 	}
 }
