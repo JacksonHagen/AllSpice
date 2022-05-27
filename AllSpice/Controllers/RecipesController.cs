@@ -47,7 +47,6 @@ namespace AllSpice.Controllers
 				return BadRequest(e.Message);
 			}
 		}
-
 		[HttpPost]
 		[Authorize]
 		public async Task<ActionResult<Recipe>> Create([FromBody] Recipe recipeData)
@@ -65,7 +64,6 @@ namespace AllSpice.Controllers
 				return BadRequest(e.Message);
 			}
 		}
-
 		[HttpPut("{id}")]
 		[Authorize]
 		public async Task<ActionResult<Recipe>> Edit([FromBody] Recipe recipeData, int id)
@@ -86,17 +84,20 @@ namespace AllSpice.Controllers
 
 		[HttpDelete("{id}")]
 		[Authorize]
-		public async Task<ActionResult<String>> Delete(int id) {
+		public async Task<ActionResult<String>> Delete(int id)
+		{
 			try
 			{
 				Account userInfo = await HttpContext.GetUserInfoAsync<Account>();
 				_rs.Delete(id, userInfo.Id);
 				return Ok("Deletion success!");
 			}
-			catch(Exception e)
+			catch (Exception e)
 			{
 				return BadRequest(e.Message);
 			}
 		}
+
+		
 	}
 }

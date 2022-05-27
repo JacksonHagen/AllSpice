@@ -18,20 +18,27 @@ CREATE TABLE IF NOT EXISTS recipes(
 ) default charset utf8;
 
 CREATE TABLE IF NOT EXISTS ingredients(
+    id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(255) NOT NULL,
     quantity VARCHAR(255) NOT NULL,
     recipeId INT NOT NULL,
-    FOREIGN Key (recipeId) REFERENCES recipes(id) ON DELETE CASCADE
+    creatorId VARCHAR(255) NOT NULL,
+    FOREIGN Key (recipeId) REFERENCES recipes(id) ON DELETE CASCADE,
+    FOREIGN KEY (creatorId) REFERENCES accounts(id) ON DELETE CASCADE
 ) default charset utf8;
 
 CREATE TABLE IF NOT EXISTS steps(
-    postition INT NOT NULL,
+    id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    position INT NOT NULL,
     body TEXT NOT NULL,
     recipeId INT NOT NULL,
-    FOREIGN KEY (recipeId) REFERENCES recipes(id) ON DELETE CASCADE
+    creatorId VARCHAR(255) NOT NULL,
+    FOREIGN KEY (recipeId) REFERENCES recipes(id) ON DELETE CASCADE,
+    FOREIGN KEY (creatorId) REFERENCES accounts(id) ON DELETE CASCADE
 ) default charset utf8;
 
 CREATE TABLE IF NOT EXISTS favorites(
+    id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     accountId VARCHAR(255) NOT NULL,
     recipeId INT NOT NULL,
     FOREIGN KEY (accountId) REFERENCES accounts(id) ON DELETE CASCADE,
