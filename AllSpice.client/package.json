@@ -8,6 +8,7 @@
   },
   "dependencies": {
     "@bcwdev/auth0provider-client": "^0.0.12",
+    "@material/fab": "^14.0.0",
     "@mdi/font": "^6.3.95",
     "@popperjs/core": "^2.10.2",
     "axios": "^0.23.0",
