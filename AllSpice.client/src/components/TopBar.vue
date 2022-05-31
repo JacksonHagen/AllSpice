@@ -2,11 +2,11 @@
   <div class="row">
     <div class="card bg-light p-0">
       <img
-        src="https://images.unsplash.com/photo-1532092367580-3bd5bc78dd9d?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1740&q=80"
+        src="../assets/img/ingredientsImg.png"
         alt=""
         class="topBar card-img"
       />
-      <div class="card-img-overlay text-light text-center">
+      <div class="card-img-overlay text-center">
         <div class="row justify-content-between align-items-center">
           <div class="col-2"></div>
           <div
@@ -18,7 +18,7 @@
               flex-column
               title-shadow
               rounded
-              text-shadow
+              text-shadow text-white
             "
           >
             <h1 class="dancing">All-Spice</h1>
