@@ -63,13 +63,10 @@ export default {
       let account = AppState.account
       if (filterBy === 'all') {
         recipes.value = AppState.allRecipes
-        logger.log(recipes.value, 'recipes')
       } else if (filterBy === 'myRecipes') {
         recipes.value = AppState.allRecipes.filter(r => r.creatorId === account?.id)
-        logger.log(recipes.value, 'recipes')
       } else if (filterBy === 'favorites') {
         recipes.value = AppState.favorites
-        logger.log(recipes.value, 'recipes')
       }
     })
 

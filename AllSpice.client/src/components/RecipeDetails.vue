@@ -1,13 +1,36 @@
 <template>
   <div class="card">
     <div class="row">
-      <div class="col-4 p-0">
-        <img :src="recipe.picture" alt="" class="recipePic rounded-start" />
+      <div class="col-4">
+        <img
+          :src="recipe.picture"
+          alt=""
+          class="recipePic card-img rounded-start"
+        />
       </div>
       <div class="col-8">
         <div class="row justify-content-between">
           <div class="col-11">
             <h3 class="text-success ps-1 mt-2 mb-0">
+              <button
+                v-if="
+                  user.isAuthenticated &&
+                  !favorites.find((f) => f.id === recipe.id)
+                "
+                class="btn btn-warning btn-sm m-0"
+                title="Add to favorites"
+                @click="addToFavorites()"
+              >
+                <i class="mdi mdi-star"></i>
+              </button>
+              <button
+                class="btn bg-danger darken-10 btn-sm m-0"
+                title="Remove from favorites"
+                v-else-if="user.isAuthenticated"
+                @click="removeFromFavorites()"
+              >
+                <i class="mdi mdi-delete"></i>
+              </button>
               {{ recipe.title }}
             </h3>
             <h5 class="text-secondary ps-1 py-0">
@@ -135,6 +158,8 @@ import { AppState } from '../AppState.js'
 import Pop from '../utils/Pop.js'
 import { stepsService } from '../services/StepsService.js'
 import { ingredientsService } from '../services/IngredientsService.js'
+import { favoritesService } from '../services/FavoritesService.js'
+import { Modal } from 'bootstrap'
 export default {
   props: {
     recipe: {
@@ -149,8 +174,10 @@ export default {
       stepData,
       ingredientData,
       account: computed(() => AppState.account),
+      user: computed(() => AppState.user),
       steps: computed(() => AppState.activeSteps?.sort((a, b) => (a.position - b.position))),
       ingredients: computed(() => AppState.activeIngredients),
+      favorites: computed(() => AppState.favorites),
       async addStep() {
         stepData.value.position = this.steps.length + 1;
         stepData.value.recipeId = props.recipe.id;
@@ -193,12 +220,37 @@ export default {
       async deleteIngredient(id) {
         try {
           if (await Pop.confirm()) {
-            await ingredientsService.delete(id, props.recipe, id);
+            await ingredientsService.delete(id, props.recipe.id);
             Pop.toast('Ingredient deleted!', 'success');
           }
         }
         catch (error) {
           console.error("[COULD_NOT_DELETE_INGREDIENT]", error.message);
+          Pop.toast(error.message, "error");
+        }
+      },
+      async addToFavorites() {
+        try {
+          await favoritesService.addFavorite(props.recipe.id);
+          Pop.toast('Added to favorites!', 'success');
+        }
+        catch (error) {
+          console.error("[COULD_NOT_ADD_TO_FAVORITES]", error.message);
+          Pop.toast(error.message, "error");
+        }
+      },
+      async removeFromFavorites() {
+        try {
+          if (await Pop.confirm()) {
+            if (AppState.filterBy === 'favorites') {
+              Modal.getOrCreateInstance(document.getElementById('rid-' + props.recipe.id)).toggle()
+            }
+            await favoritesService.deleteFavorite(props.recipe.id);
+            Pop.toast('Removed from favorites', 'success')
+          }
+        }
+        catch (error) {
+          console.error("[COULD_NOT_REMOVE_FAVORITE]", error.message);
           Pop.toast(error.message, "error");
         }
       }

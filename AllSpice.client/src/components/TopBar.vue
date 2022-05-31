@@ -86,28 +86,9 @@
 
 
 <script>
-import { computed, ref } from '@vue/reactivity'
-import { watchEffect } from '@vue/runtime-core'
 import { AppState } from '../AppState.js'
 export default {
   setup() {
-    // const filterBy = ref('')
-    const filteredList = ref([])
-    // watchEffect(() => {
-    //   let list = AppState.allRecipes
-    //   if (AppState.allRecipes) {
-    //     if (filterBy.value = 'myRecipes') {
-    //       AppState.filterBy = 'myRecipes'
-    //       // AppState.filteredRecipes = AppState.allRecipes.filter(r => r.creatorId === AppState.account.id)
-    //     } else if (filterBy.value === 'favorites') {
-    //       AppState.filterBy = 'favorites'
-    //       // AppState.filteredRecipes = AppState.favorites
-    //     } else {
-    //       AppState.filterBy = 'all';
-    //       // AppState.filteredRecipes = AppState.allRecipes
-    //     }
-    //   }
-    // })
     return {
       filter(str) {
         AppState.filterBy = str;

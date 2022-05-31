@@ -6,12 +6,10 @@ class StepsService
 {
 	async getByRecipe(recipeId) {
 		const res = await api.get('api/recipes/' + recipeId + '/steps');
-		logger.log(res);
 		AppState.activeSteps = res.data;
 	}
 	async createStep(stepData) {
 		const res = await api.post('api/recipes/' + stepData.recipeId + '/steps', stepData);
-		logger.log(res.data)
 		AppState.activeSteps.push(res.data);
 	}
 	async delete(id, recipeId) {

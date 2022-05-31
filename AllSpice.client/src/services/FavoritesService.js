@@ -6,13 +6,15 @@ class FavoritesService
 {
 	async getFavorites() {
 		const res = await api.get('account/favorites');
-		logger.log(res.data)
-		AppState.favorites = res.data;
+		let arr = []
+		res.data.forEach(f => {
+			arr.push(AppState.allRecipes.find(r => r.id === f.recipeId))
+		})
+		AppState.favorites = arr;
 	}
 	async addFavorite(recipeId) {
 		const res = await api.post('api/recipes/' + recipeId + '/favorite', { recipeId });
-		logger.log(res.data)
-		AppState.favorites.unshift(res.data)
+		AppState.favorites.unshift(AppState.allRecipes.find(r => r.id === recipeId))
 	}
 	async deleteFavorite(recipeId) {
 		await api.delete('api/recipes/' + recipeId + '/favorite');
